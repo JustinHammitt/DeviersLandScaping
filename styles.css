@@ -22,6 +22,7 @@ body {
   background-color: var(--bg-color);
   line-height: 1.6;
 }
+
 /* Header & Navigation */
 header {
   background-color: var(--primary-color);
@@ -48,17 +49,18 @@ header nav ul li a:hover {
 /* Hero Section */
 #hero {
   background: url('hero.jpg') center/cover no-repeat;
-  color: var(--accent-color);
   text-align: center;
   padding: 4rem 2rem;
 }
 #hero h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  color: var(--secondary-color);
 }
 #hero p {
   font-size: 1.25rem;
   margin-bottom: 2rem;
+  color: var(--secondary-color);
 }
 #hero .btn {
   background-color: var(--secondary-color);
