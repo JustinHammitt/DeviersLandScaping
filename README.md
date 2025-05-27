@@ -1,4 +1,4 @@
-# DeviEr Landscaping & Hauling Website
+# Devier Landscaping & Hauling Website
 
 ## Overview
 
