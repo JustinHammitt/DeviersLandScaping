@@ -117,6 +117,14 @@ header nav ul li a:hover {
   height: auto;
   border-radius: 10px;
 }
+.hidden-lightbox {
+  position: absolute;
+  left: -9999px;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+
 
 /* Services Section */
 #services {
