@@ -87,6 +87,18 @@ header nav ul li a:hover {
   color: var(--primary-color);
 }
 
+/* Portfolio Section */
+#portfolio {
+  padding: 4rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+#portfolio h2 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
 /* Services Section */
 #services {
   padding: 4rem 2rem;
