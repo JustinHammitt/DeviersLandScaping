@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deviers's Landscaping & Hauling</title>
   <link rel="stylesheet" href="styles.css">
+  
+  <!-- Lightbox2 CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+  <!-- Lightbox2 JS (best placed at end of head for GitHub Pages compatibility) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 </head>
 <body>
   <header>
@@ -25,10 +31,35 @@
     <a href="#contact" class="btn">Get a Free Quote</a>
   </section>
 
-  <section id="portfolio">
+  <section id="portfolio" class="section-wrapper">
     <h2>Portfolio</h2>
-    <p>in this section we want to have albums for our jobs...</p>
+    <div class="album-carousel">
+      <!-- Job 1 -->
+      <div class="album">
+        <a href="assets/portfolio/job1/1.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024">
+          <img src="assets/portfolio/job1/1.jpg" alt="Mulch Install - April 2024">
+        </a>
+        <p>Mulch Install - April 2024</p>
+
+        <!-- Hidden additional images for Job 1 -->
+        <a href="assets/portfolio/job1/2.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024" style="display: none;"></a>
+        <a href="assets/portfolio/job1/3.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024" style="display: none;"></a>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="album">
+        <a href="assets/portfolio/job2/1.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024">
+          <img src="assets/portfolio/job2/1.jpg" alt="Lawn Cleanup - March 2024">
+        </a>
+        <p>Lawn Cleanup - March 2024</p>
+
+        <!-- Hidden additional images for Job 2 -->
+        <a href="assets/portfolio/job2/2.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024" style="display: none;"></a>
+        <a href="assets/portfolio/job2/3.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024" style="display: none;"></a>
+      </div>
+    </div>
   </section>
+
 
   <section id="about">
     <h2>About Us</h2>

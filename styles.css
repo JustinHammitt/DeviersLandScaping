@@ -98,6 +98,25 @@ header nav ul li a:hover {
   margin-bottom: 1rem;
   color: var(--primary-color);
 }
+.album-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem 0;
+  scroll-snap-type: x mandatory;
+}
+.album {
+  min-width: 200px;
+  flex-shrink: 0;
+  cursor: pointer;
+  text-align: center;
+  scroll-snap-align: start;
+}
+.album img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
 
 /* Services Section */
 #services {
