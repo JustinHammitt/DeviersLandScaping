@@ -100,22 +100,24 @@ header nav ul li a:hover {
 }
 .album-carousel {
   display: flex;
-  overflow-x: auto;
-  gap: 1rem;
-  padding: 1rem 0;
-  scroll-snap-type: x mandatory;
-}
-.album {
-  min-width: 200px;
-  flex-shrink: 0;
-  cursor: pointer;
-  text-align: center;
-  scroll-snap-align: start;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
 }
 .album img {
   width: 100%;
+  max-width: 300px;
   height: auto;
-  border-radius: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out;
+}
+.album img:hover {
+  transform: scale(1.02);
+}
+.album {
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 .hidden-lightbox {
   position: absolute;
