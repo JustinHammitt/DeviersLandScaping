@@ -255,6 +255,33 @@ footer {
   background-color: var(--secondary-color);
 }
 
+.quote-box {
+  background-color: rgba(0, 0, 0, 0.75); /* black w/ 75% opacity */
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  color: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.quote-box input,
+.quote-box select,
+.quote-box textarea {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #000;
+}
+
+.quote-box ::placeholder {
+  color: #555;
+}
+
+.quote-box select option {
+  background-color: #fff;
+  color: #000;
+}
+
 
 /* Responsive Breakpoints */
 @media (min-width: 768px) {
