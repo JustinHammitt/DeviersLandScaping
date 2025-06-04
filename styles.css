@@ -201,6 +201,61 @@ footer {
   margin-top: 2rem;
 }
 
+#quote {
+  padding: 4rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+#quote h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+#quote form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.input-pair {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.input-pair input {
+  flex: 1 1 45%;
+  min-width: 140px;
+}
+#quote input,
+#quote select,
+#quote textarea,
+#quote button {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-family: var(--font-family);
+  font-size: 1rem;
+}
+.full-width {
+  width: 100%;
+}
+#quote button {
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#quote button:hover {
+  background-color: var(--secondary-color);
+}
+
+
 /* Responsive Breakpoints */
 @media (min-width: 768px) {
   #hero h1 {

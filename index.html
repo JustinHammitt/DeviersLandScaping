@@ -23,10 +23,41 @@
   </header>
 
   <section id="hero">
-    <h1>Deviers's Landscaping & Hauling, Your One-Stop Solution.</h1>
-    <p>We offer a wide range of services to meet your needs including Lawn Care, Hauling, Gardening, pressure washing, mulch installation, and more.</p>
-    <a href="#contact" class="btn">Need Something done, get a Free Quote!</a>
-  </section>
+  <h1>Deviers's Landscaping & Hauling, Your One-Stop Solution.</h1>
+  <p>We offer a wide range of services to meet your needs including Lawn Care, Hauling, Gardening, pressure washing, mulch installation, and more.</p>
+  <a href="#quote" class="btn">Need Something done, get a Free Quote!</a>
+</section>
+
+<section id="quote" class="section-wrapper">
+  <h2>Request a Free Quote</h2>
+  <form action="#" method="post" id="quote-form">
+    <div class="input-pair">
+      <input type="text" name="firstName" placeholder="First Name" required />
+      <input type="text" name="lastName" placeholder="Last Name" required />
+    </div>
+    <div class="input-pair">
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+    </div>
+    <input type="text" name="address" placeholder="Project Address" required />
+    <textarea name="description" placeholder="Describe the work you need completed..." rows="5" required></textarea>
+    <div class="full-width">
+      <select name="reason" required>
+        <option value="" disabled selected>Select Inquiry Reason *</option>
+        <option value="Gardening">Gardening</option>
+        <option value="Landscaping">Landscaping</option>
+        <option value="Mulching">Mulching</option>
+        <option value="Leveling">Leveling</option>
+        <option value="Pressure Washing">Pressure Washing</option>
+      </select>
+    </div>
+    <div class="full-width">
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</section>
+
+
 
   <section id="portfolio" class="section-wrapper">
     <h2>Portfolio</h2>
