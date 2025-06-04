@@ -25,15 +25,25 @@ body {
   line-height: 1.6;
 }
 
+
 /* Header & Navigation */
 header {
   background-color: var(--primary-color);
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
+}
+header nav {
+  display: flex;
+  align-items: center;             /* ✅ Vertically center logo and nav */
+  justify-content: space-between;
+}
+header nav .logo {
+  margin-right: 2rem;
 }
 header nav ul {
   display: flex;
   list-style: none;
-  justify-content: flex-end;
+  align-items: center;             /* Ensures nav links align with logo */
+  margin-left: auto;
 }
 header nav ul li {
   margin-left: 2rem;
@@ -47,6 +57,13 @@ header nav ul li a {
 header nav ul li a:hover {
   color: var(--secondary-color);
 }
+.logo img {
+  height: 100px;                    /* Shrink logo to match nav height */
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
 
 /* Hero Section */
 #hero {
