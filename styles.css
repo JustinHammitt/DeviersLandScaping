@@ -9,6 +9,7 @@
   --text-color: #333333;
   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --black-color: #080808;
+  --white-color: #ffffff;
 }
 
 /* Base Styles */
@@ -65,7 +66,7 @@ header nav ul li a:hover {
 }
 #hero .btn {
   background-color: var(--secondary-color);
-  color: var(--text-color);
+  color: var(--white-color);
   padding: 0.75rem 1.5rem;
   text-decoration: none;
   border-radius: 2rem;
