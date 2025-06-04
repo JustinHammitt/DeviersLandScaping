@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Deviers's Landscaping & Hauling</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 
   <!-- Lightbox2 CSS -->
-  <link href="plugins/lightbox2/css/lightbox.css" rel="stylesheet">
+  <link href="plugins/lightbox2/css/lightbox.css" rel="stylesheet" />
 </head>
 <body>
   <header>
@@ -30,41 +30,7 @@
 
   <section id="portfolio" class="section-wrapper">
     <h2>Portfolio</h2>
-    <div class="album-carousel">
-
-      <!-- Job 1 -->
-      <div class="album">
-        <a href="assets/portfolio/job1/1.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024">
-          <img src="assets/portfolio/job1/1.jpg" alt="Mulch Install - April 2024">
-        </a>
-        <p>Mulch Install - April 2024</p>
-        <div style="display: none;">
-          <a href="assets/portfolio/job1/2.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024"></a>
-          <a href="assets/portfolio/job1/3.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024"></a>
-          <a href="assets/portfolio/job1/4.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024"></a>
-          <a href="assets/portfolio/job1/5.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024"></a>
-          <a href="assets/portfolio/job1/6.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024"></a>
-          <a href="assets/portfolio/job1/7.jpg" data-lightbox="job1" data-title="Mulch Install - April 2024"></a>
-        </div>
-      </div>
-
-      <!-- Job 2 -->
-      <div class="album">
-        <a href="assets/portfolio/job2/1.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024">
-          <img src="assets/portfolio/job2/1.jpg" alt="Lawn Cleanup - March 2024">
-        </a>
-        <p>Lawn Cleanup - March 2024</p>
-        <div style="display: none;">
-          <a href="assets/portfolio/job2/2.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024"></a>
-          <a href="assets/portfolio/job2/3.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024"></a>
-          <a href="assets/portfolio/job2/4.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024"></a>
-          <a href="assets/portfolio/job2/5.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024"></a>
-          <a href="assets/portfolio/job2/6.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024"></a>
-          <a href="assets/portfolio/job2/7.jpg" data-lightbox="job2" data-title="Lawn Cleanup - March 2024"></a>
-        </div>
-      </div>
-
-    </div>
+    <div class="album-carousel" id="portfolio-gallery"></div>
   </section>
 
   <section id="about">
@@ -99,8 +65,8 @@
   <section id="contact">
     <h2>Contact Us</h2>
     <form action="#" method="post">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
       <textarea name="message" placeholder="How can we help you?" required></textarea>
       <button type="submit">Send Message</button>
     </form>
@@ -110,7 +76,50 @@
     <p>&copy; 2025 Deviers's Landscaping & Hauling. All rights reserved.</p>
   </footer>
 
-  <!-- Lightbox2 JS (jQuery included) -->
+  <!-- Lightbox2 JS -->
   <script src="plugins/lightbox2/js/lightbox-plus-jquery.js"></script>
+
+  <!-- Dynamic Gallery Script -->
+  <script>
+    const jobs = [
+      { id: 'job1', title: 'Mulch Install - April 2024', count: 7 },
+      { id: 'job2', title: 'Lawn Cleanup - March 2024', count: 7 }
+      // Add new jobs here
+    ];
+
+    const galleryContainer = document.getElementById('portfolio-gallery');
+
+    jobs.forEach(job => {
+      const albumDiv = document.createElement('div');
+      albumDiv.className = 'album';
+
+      const basePath = `assets/portfolio/${job.id}/`;
+
+      for (let i = 1; i <= job.count; i++) {
+        const imgPath = `${basePath}${i}.jpg`;
+        const anchor = document.createElement('a');
+        anchor.href = imgPath;
+        anchor.setAttribute('data-lightbox', job.id);
+        anchor.setAttribute('data-title', job.title);
+
+        if (i === 1) {
+          const img = document.createElement('img');
+          img.src = imgPath;
+          img.alt = job.title;
+          anchor.appendChild(img);
+          albumDiv.appendChild(anchor);
+
+          const caption = document.createElement('p');
+          caption.textContent = job.title;
+          albumDiv.appendChild(caption);
+        } else {
+          anchor.style.display = 'none';
+          albumDiv.appendChild(anchor);
+        }
+      }
+
+      galleryContainer.appendChild(albumDiv);
+    });
+  </script>
 </body>
 </html>
