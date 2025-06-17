@@ -40,6 +40,12 @@ The goal is to give Caleb a functional, modern, and mobile-friendly platform tha
 - Embed Google Map of service area
 - Link to Facebook and other social accounts
 
-### 5. Testimonials (Optional)
+### 5. Gallery
+- This section is devoted to the entirety of jobs performed by the business
+- Business users should be able to upload images in some simple user-friendly way
+- GDrive was choosen as the image host due to low cost and realtive ease of use
+ - Alternatives may be considered if issues arise
+
+### 6. Testimonials (Optional)
 - Pull select reviews from Facebook or Google
-- Show alongside relevant project imag
+- Show alongside relevant project image
