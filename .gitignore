@@ -1,0 +1,50 @@
+# Ignore API keys
+*.pem
+*.key
+.env
+config/*.json
+secrets.*
+
+# Ignore build and dist directories
+build/
+dist/
+
+# Ignore node_modules
+node_modules/
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore temp files
+*.swp
+
+# Ignore user files
+*.suo
+*.userprefs
+
+# Ignore Visual Studio files
+*.ncb
+*.opendb
+*.sdf
+*.suo
+*.user
+*.userprefs
+App_Data/
+packages/
+_ReSharper.*
+*.resharper
+Bin/
+obj/
+
+# Ignore Waf files
+.wafpickle
