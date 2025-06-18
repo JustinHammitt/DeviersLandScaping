@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import fetch from 'node-fetch';
 
 // TODO: replace with your real folder ID (string after .../folders/<ID>)
-const ROOT_ID = '1AbCDefGhIjKlmn';
+const ROOT_ID = '1PV0w1kL27aW6hxfsABfgeHg4LGCoFttl';
 
 const KEY     = process.env.GDRIVE_KEY;
 const FOLDER  = 'application/vnd.google-apps.folder';
