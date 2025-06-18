@@ -3,91 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deviers Landscaping & Hauling – Portfolio Gallery</title>
+  <title>Deviers Landscaping & Hauling – Gallery</title>
 
-  <!-- Site-wide CSS -->
+  <!-- Shared site styles -->
   <link rel="stylesheet" href="styles.css">
+  <!-- Gallery-only tweaks (already created earlier) -->
+  <link rel="stylesheet" href="gallery.css">
 
   <!-- Lightbox2 -->
   <link rel="stylesheet" href="plugins/lightbox2/css/lightbox.css">
   <script defer src="plugins/lightbox2/js/lightbox.js"></script>
 
-  <!-- ★ Minimal gallery-specific tweaks (override or add here) -->
-  <!-- gallery.html -->
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="gallery.css"><!-- add this just after styles.css -->
-
-
+  <!-- Drive-powered gallery logic -->
+  <script defer src="public/js/gallery.js"></script>
 </head>
 
 <body>
-  <!-- ========= Site Header (clone of index.html) ========= -->
-    <header>
-        <nav>
-            <div class="logo">
-            <a href="index.html#home">
-                <img src="assets/logo.png" alt="Deviers's Landscaping & Hauling Logo">
-            </a>
-            </div>
+  <!-- =========  HEADER  (same markup as index.html)  ========= -->
+  <header>
+    <nav>
+      <div class="logo">
+        <a href="index.html#home">
+          <img src="assets/logo.png" alt="Deviers Landscaping & Hauling logo">
+        </a>
+      </div>
 
-            <ul>
-            <li><a href="index.html#home">Home</a></li>
-            <li><a href="index.html#portfolio">Portfolio</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <!-- optional: keep a self-link -->
-            <li><a class="active" href="gallery.html">Gallery</a></li>
-            </ul>
-        </nav>
-    </header>
+      <ul>
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a class="active" href="gallery.html">Gallery</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- =================  GALLERY  ================= -->
+  <!-- =====================  GALLERY  ====================== -->
   <main class="gallery">
     <h1>Project Portfolio</h1>
-    <p>Browse every job we’ve documented—from mulch installs to patio builds.</p>
+    <p id="loading">Loading photos…</p>
 
-    <section class="album-grid">
-
-      <!-- ======= JOB 1 ======= -->
-      <div class="album">
-        <!-- Cover thumbnail -->
-        <a href="assets/portfolio/job1/1.jpg" data-lightbox="job1" data-title="Job 1 – Mulch Install (Apr 2024)">
-          <img src="assets/portfolio/job1/1-thumb.jpg" alt="Mulch install – April 2024">
-        </a>
-        <p>Mulch Install – Apr 2024</p>
-
-        <!-- Hidden extra photos -->
-        <a href="assets/portfolio/job1/2.jpg" data-lightbox="job1" data-title="Before – clearing old mulch" style="display:none;"></a>
-        <a href="assets/portfolio/job1/3.jpg" data-lightbox="job1" data-title="Laying weed barrier"      style="display:none;"></a>
-        <a href="assets/portfolio/job1/4.jpg" data-lightbox="job1" data-title="Finished bed with edging"  style="display:none;"></a>
-      </div>
-
-      <!-- ======= JOB 2 ======= -->
-      <div class="album">
-        <a href="assets/portfolio/job2/1.jpg" data-lightbox="job2" data-title="Job 2 – Paver Patio (May 2024)">
-          <img src="assets/portfolio/job2/1-thumb.jpg" alt="Paver patio – May 2024">
-        </a>
-        <p>Paver Patio – May 2024</p>
-        <a href="assets/portfolio/job2/2.jpg" data-lightbox="job2" data-title="Base prep"  style="display:none;"></a>
-        <a href="assets/portfolio/job2/3.jpg" data-lightbox="job2" data-title="Compacting sand" style="display:none;"></a>
-        <a href="assets/portfolio/job2/4.jpg" data-lightbox="job2" data-title="Final sweep" style="display:none;"></a>
-      </div>
-
-      <!-- ======= TEMPLATE for new jobs (copy-paste) =======
-      <div class="album">
-        <a href="assets/portfolio/jobX/1.jpg" data-lightbox="jobX" data-title="Job X – …">
-          <img src="assets/portfolio/jobX/1-thumb.jpg" alt="">
-        </a>
-        <p>Job title – Month Year</p>
-        <a href="assets/portfolio/jobX/2.jpg" data-lightbox="jobX" data-title="…" style="display:none;"></a>
-        …
-      </div>
-      ==================================================== -->
-
-    </section>
+    <!-- JS fills this grid with cards; keep it empty in the file -->
+    <section class="album-grid" hidden></section>
   </main>
 
-  <!-- =========  Site Footer (optional) ========= -->
+  <!-- =========  FOOTER (optional)  ========= -->
   <footer>
     <p>&copy; 2025 Deviers Landscaping & Hauling. All rights reserved.</p>
   </footer>

@@ -1,0 +1,33 @@
+name: Build gallery data
+
+on:
+  schedule:
+    - cron: '13 3 * * *'       # every night (03:13 UTC)
+  workflow_dispatch:           # allow manual “Run workflow”
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - run: npm install node-fetch@^3
+
+      - name: Build JSON
+        env:
+          GDRIVE_KEY: ${{ secrets.GDRIVE_KEY }}
+        run: node scripts/build-gallery.js
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "Gallery Bot"
+          git config user.email "actions@github.com"
+          git add data/galleryData.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore: update gallery data [skip ci]"
+            git push
+          fi
