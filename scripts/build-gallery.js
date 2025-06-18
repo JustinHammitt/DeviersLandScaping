@@ -1,45 +1,85 @@
-// scripts/build-gallery.js
-// Run inside GitHub Actions. Generates data/galleryData.json
+// build-gallery.js — run in GitHub Actions to generate data/galleryData.json
+// Usage: node scripts/build-gallery.js
+// Requires env var GDRIVE_KEY (API key restricted to Google Drive) and
+// the Public‑Gallery folder ID below.
+
 import fs from 'node:fs/promises';
+import path from 'node:path';
 import fetch from 'node-fetch';
 
-// TODO: replace with your real folder ID (string after .../folders/<ID>)
-const ROOT_ID = '1PV0w1kL27aW6hxfsABfgeHg4LGCoFttl';
+/********************  CONFIG  *************************/
+// Google Drive folder shared "Anyone with the link -> Viewer"
+const ROOT_ID = '1PV0w1kL27aW6hxfsABfgeHg4LGCoFttl'; // <-- replace if you move the gallery root
 
-const KEY     = process.env.GDRIVE_KEY;
-const FOLDER  = 'application/vnd.google-apps.folder';
+// GitHub secret name: GDRIVE_KEY
+const KEY = process.env.GDRIVE_KEY;
+if (!KEY) throw new Error('❌  GDRIVE_KEY env var is missing');
 
-const list = async q => {
+const FOLDER_MIME = 'application/vnd.google-apps.folder';
+/*******************************************************/
+
+/**
+ * Query Drive v3 and return an array of files.
+ * Adds concise console output to aid debugging inside CI.
+ */
+async function driveList(query, label) {
   const url = new URL('https://www.googleapis.com/drive/v3/files');
   url.search = new URLSearchParams({
     key: KEY,
-    q,
+    q: query,
     fields: 'files(id,name,mimeType,thumbnailLink)',
     pageSize: 1000,
   });
-  return (await (await fetch(url)).json()).files;
-};
 
+  const res = await fetch(url);
+  const body = await res.json();
+
+  // ---- debug output ------------------------------------------------------
+  console.log(`📡  Drive query [${label}] → status ${res.status}`);
+  console.log(JSON.stringify(body, null, 2).slice(0, 400)); // first 400 chars
+  // -----------------------------------------------------------------------
+
+  if (!res.ok) {
+    throw new Error(`Drive API ${res.status}: ${body.error?.message ?? 'unknown error'}`);
+  }
+
+  return body.files ?? [];
+}
+
+/**
+ * Build galleryData.json and write to the repo.
+ */
 export default async function build() {
-  const albums = await list(`'${ROOT_ID}' in parents and mimeType='${FOLDER}'`);
-  const out = {};
+  const albums = await driveList(`'${ROOT_ID}' in parents and mimeType='${FOLDER_MIME}'`, 'list albums');
 
-  for (const album of albums) {
-    const pics = await list(`'${album.id}' in parents and mimeType contains 'image/'`);
-    if (!pics.length) continue;
+  if (!albums.length) throw new Error('No sub‑folders found — check sharing settings or folder ID');
+
+  const gallery = {};
+
+  for (const alb of albums) {
+    const pics = await driveList(`'${alb.id}' in parents and mimeType contains 'image/'`, `list pics of ${alb.name}`);
+    if (!pics.length) continue; // skip empty albums
 
     pics.sort((a, b) => a.name.localeCompare(b.name));
 
-    out[album.name] = pics.map(p => ({
-      name : p.name,
-      thumb: p.thumbnailLink.replace(/=s\\d+/, '=w600-h600'),
-      url  : `https://drive.google.com/uc?export=view&id=${p.id}`,
+    gallery[alb.name] = pics.map(p => ({
+      name: p.name,
+      thumb: p.thumbnailLink?.replace(/=s\d+/, '=w600-h600'),
+      url: `https://drive.google.com/uc?export=view&id=${p.id}`,
     }));
   }
 
-  await fs.mkdir('data', { recursive: true });
-  await fs.writeFile('data/galleryData.json', JSON.stringify(out, null, 2));
-  console.log('✓ galleryData.json updated');
+  // Write out JSON
+  const outPath = path.join('data', 'galleryData.json');
+  await fs.mkdir(path.dirname(outPath), { recursive: true });
+  await fs.writeFile(outPath, JSON.stringify(gallery, null, 2));
+  console.log(`✅  Wrote ${outPath} with ${Object.keys(gallery).length} album(s)`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) build();
+// If invoked directly via `node ...`, run build()
+if (import.meta.url === `file://${process.argv[1]}`) {
+  build().catch(err => {
+    console.error('❌  Build failed:', err.message);
+    process.exit(1);
+  });
+}
