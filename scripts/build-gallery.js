@@ -9,7 +9,7 @@ import fetch from 'node-fetch';
 
 /********************  CONFIG  *************************/
 // Google Drive folder shared "Anyone with the link -> Viewer"
-const ROOT_ID = '1PV0w1kL27aW6hxfsABfgeHg4LGCoFttl'; // <-- replace if you move the gallery root
+const ROOT_ID = '1JJOPzMe_KDYzHrxmmy7X2gBzDGRHeom-'; // <-- replace if you move the gallery root
 
 // GitHub secret name: GDRIVE_KEY
 const KEY = process.env.GDRIVE_KEY;
