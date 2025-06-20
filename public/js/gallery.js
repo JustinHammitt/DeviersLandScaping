@@ -1,42 +1,45 @@
 // public/js/gallery.js
-(async () => {
-  const res    = await fetch('data/galleryData.json');
-  const albums = await res.json();
+document.addEventListener('DOMContentLoaded', () => {
+  const jobs = [
+    { id: 'job1', title: 'Mulch Install – April 2024', count: 7 },
+    { id: 'job2', title: 'Lawn Cleanup – March 2024', count: 7 }
+    // …add more albums here
+  ];
 
-  const grid    = document.querySelector('.album-grid');
+  const grid = document.querySelector('.album-grid');
   const loading = document.getElementById('loading');
 
-  for (const [album, pics] of Object.entries(albums)) {
-    if (!pics.length) continue;
+  jobs.forEach(job => {
+    const album = document.createElement('div');
+    album.className = 'album';
+    const base = `assets/portfolio/${job.id}/`;
 
-    const card = document.createElement('div');
-    card.className = 'album';
+    for (let i = 1; i <= job.count; i++) {
+      const href = `${base}${i}.jpg`;
+      const a    = document.createElement('a');
+      a.href       = href;
+      a.setAttribute('data-lightbox', job.id);
+      a.setAttribute('data-title',   job.title);
 
-    // cover thumbnail
-    const cover = pics[0];
-    const aCover = document.createElement('a');
-    aCover.href = cover.url;
-    aCover.dataset.lightbox = album;
-    aCover.dataset.title = album;
-    aCover.innerHTML = `<img src="${cover.thumb}" alt="${album}">`;
-    card.appendChild(aCover);
+      if (i === 1) {
+        const img = document.createElement('img');
+        img.src   = href;
+        img.alt   = job.title;
+        a.appendChild(img);
 
-    card.insertAdjacentHTML('beforeend',
-      `<p>${album.replace(/^\\d{4}-\\d{2}-/, '')}</p>`);
+        const cap = document.createElement('p');
+        cap.textContent = job.title;
+        album.append(a, cap);
+      } else {
+        a.style.display = 'none';
+        album.appendChild(a);
+      }
+    }
 
-    // rest of photos (hidden links)
-    pics.slice(1).forEach(p => {
-      const a = document.createElement('a');
-      a.href = p.url;
-      a.dataset.lightbox = album;
-      a.dataset.title = p.name;
-      a.style.display = 'none';
-      card.appendChild(a);
-    });
+    grid.appendChild(album);
+  });
 
-    grid.appendChild(card);
-  }
-
-  loading.remove();
-  grid.hidden = false;
-})();
+  // toggle loading/grid
+  loading.style.display = 'none';
+  grid.removeAttribute('hidden');
+});
