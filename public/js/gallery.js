@@ -1,45 +1,44 @@
 // public/js/gallery.js
 document.addEventListener('DOMContentLoaded', () => {
-  const jobs = [
-    { id: 'job1', title: 'Mulch Install – April 2024', count: 7 },
-    { id: 'job2', title: 'Lawn Cleanup – March 2024', count: 7 }
-    // …add more albums here
-  ];
-
-  const grid = document.querySelector('.album-grid');
+  const grid    = document.querySelector('.album-grid');
   const loading = document.getElementById('loading');
 
-  jobs.forEach(job => {
-    const album = document.createElement('div');
-    album.className = 'album';
-    const base = `assets/portfolio/${job.id}/`;
+  fetch('data/galleryData.json')
+    .then(res => res.json())
+    .then(gallery => {
+      // gallery is an object: { "2025-03-27": [ {thumb,url,name}, … ], … }
+      Object.entries(gallery).forEach(([albumName, pics]) => {
+        const album = document.createElement('div');
+        album.className = 'album';
 
-    for (let i = 1; i <= job.count; i++) {
-      const href = `${base}${i}.jpg`;
-      const a    = document.createElement('a');
-      a.href       = href;
-      a.setAttribute('data-lightbox', job.id);
-      a.setAttribute('data-title',   job.title);
+        pics.forEach((pic, i) => {
+          const a = document.createElement('a');
+          a.href = pic.url;
+          a.setAttribute('data-lightbox', albumName);
+          a.setAttribute('data-title', `${albumName}: ${pic.name}`);
 
-      if (i === 1) {
-        const img = document.createElement('img');
-        img.src   = href;
-        img.alt   = job.title;
-        a.appendChild(img);
+          if (i === 0) {
+            const img = document.createElement('img');
+            img.src = pic.thumb;
+            img.alt = pic.name;
+            a.appendChild(img);
 
-        const cap = document.createElement('p');
-        cap.textContent = job.title;
-        album.append(a, cap);
-      } else {
-        a.style.display = 'none';
-        album.appendChild(a);
-      }
-    }
+            const cap = document.createElement('p');
+            cap.textContent = albumName;
+            album.append(a, cap);
+          } else {
+            // hide the extra <a> tags — they still fuel the Lightbox gallery
+            a.style.display = 'none';
+            album.appendChild(a);
+          }
+        });
 
-    grid.appendChild(album);
-  });
-
-  // toggle loading/grid
-  loading.style.display = 'none';
-  grid.removeAttribute('hidden');
+        grid.appendChild(album);
+      });
+    })
+    .catch(err => console.error('Gallery load failed:', err))
+    .finally(() => {
+      loading.style.display = 'none';
+      grid.removeAttribute('hidden');
+    });
 });
