@@ -22,8 +22,8 @@ const driveImageUrl = (id) =>
 	`https://drive.google.com/uc?export=download&id=${id}`;
 
 
-const driveThumbUrl = (id, size = 'w600-h600') =>
-  `https://drive.google.com/thumbnail?id=${id}&sz=${size}`;
+const driveFullUrl = (id, w = 2000) =>
+  `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
 /*******************************************************/
 
 /**
@@ -98,7 +98,7 @@ export default async function build() {
     gallery[alb.name] = pics.map(p => ({
       name: p.name || p.id,
       thumb: driveThumbUrl(p.id),   // public thumbnail endpoint
-      url:   driveImageUrl(p.id),    // public embeddable view
+      url:   driveFullUrl(p.id),    // public embeddable view
     }));
   }
 
