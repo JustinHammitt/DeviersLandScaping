@@ -16,7 +16,7 @@ The goal is to give Caleb a functional, modern, and mobile-friendly platform tha
 - Provide a clear overview of available services
 - Offer a contact form to gather project inquiries
 - Create a responsive design that works on all screen sizes
-- Link to and integrate with Caleb’s Facebook portfolio
+- Link to and integrate with current work portfolio
 
 ---
 
