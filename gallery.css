@@ -33,7 +33,7 @@ main.gallery {
 
 .album > a > img {
   display: block;
-  width: 100%;
+  width: 140%;
   height: 300px;                    /* choose 200–260px if you prefer */
   object-fit: cover;                /* fill + crop, no letterboxing */
   background: #000;                 /* avoid white flash while loading */
