@@ -33,9 +33,10 @@ main.gallery {
 
 .album > a > img {
   display: block;
-  width: 300%;
-  height: 300px;                    /* choose 200–260px if you prefer */
+  width: 100%;
+  height: 260px;                    /* choose 200–260px if you prefer */
   object-fit: cover;                /* fill + crop, no letterboxing */
+  object-position: center;/* <-- center the subject */
   background: #000;                 /* avoid white flash while loading */
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
