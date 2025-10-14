@@ -40,3 +40,28 @@ main.gallery {
   background: var(--primary-color);
   color: var(--accent-color);
 }
+
+/* ==== Gallery cover fixes ==== */
+.album > a {                 /* make the cover link fill the card */
+  display: block;
+  width: 100%;
+  line-height: 0;           /* removes stray inline gap */
+}
+
+.album > a > img {          /* override earlier .album img rules */
+  display: block;
+  width: 100%;
+  height: auto;             /* let aspect-ratio control height */
+  aspect-ratio: 16 / 9;     /* consistent card shape; adjust if you prefer */
+  object-fit: cover;        /* crop to fill the area */
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  background: #000;         /* prevents any brief white behind-load */
+}
+
+/* optional: tighten the caption bar so it hugs the image */
+.album p {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
