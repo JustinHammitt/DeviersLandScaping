@@ -18,8 +18,9 @@ if (!KEY) throw new Error('❌  GDRIVE_KEY env var is missing');
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
 
 // Public-safe URL builders
-const driveViewUrl = (id) =>
-  `https://drive.google.com/uc?export=view&id=${id}`;
+const driveImageUrl = (id) => 
+	`https://drive.google.com/uc?export=download&id=${id}`;
+
 
 const driveThumbUrl = (id, size = 'w600-h600') =>
   `https://drive.google.com/thumbnail?id=${id}&sz=${size}`;
@@ -97,7 +98,7 @@ export default async function build() {
     gallery[alb.name] = pics.map(p => ({
       name: p.name || p.id,
       thumb: driveThumbUrl(p.id),   // public thumbnail endpoint
-      url:   driveViewUrl(p.id),    // public embeddable view
+      url:   driveImageUrl(p.id),    // public embeddable view
     }));
   }
 
