@@ -23,44 +23,38 @@ const driveViewUrl = (id) =>
 
 const driveThumbUrl = (id, size = 'w600-h600') =>
   `https://drive.google.com/thumbnail?id=${id}&sz=${size}`;
-
 /*******************************************************/
 
 /**
- * Query Drive v3 and return an array of files (handles pagination).
- * Adds concise console output to aid debugging inside CI.
+ * Minimal, compatible Drive v3 listing with pagination.
+ * Avoids corpora/supportsAllDrives flags that can 400 with API-key only.
  */
-async function driveList(query, label, fields = 'id,name,mimeType,thumbnailLink,createdTime', orderBy = 'createdTime desc') {
+async function driveList(query, label, fields = 'id,name,mimeType,thumbnailLink,createdTime') {
   const base = 'https://www.googleapis.com/drive/v3/files';
   const files = [];
   let pageToken;
 
   do {
-    const url = new URL(base);
-    url.search = new URLSearchParams({
+    const params = new URLSearchParams({
       key: KEY,
       q: query,
       fields: `nextPageToken, files(${fields})`,
-      pageSize: '1000',
-      orderBy,
-      supportsAllDrives: 'true',
-      includeItemsFromAllDrives: 'true',
-      corpora: 'allDrives',
-      pageToken: pageToken || ''
+      pageSize: '1000'
     });
+    if (pageToken) params.set('pageToken', pageToken);
 
+    const url = `${base}?${params.toString()}`;
     const res = await fetch(url);
     const body = await res.json();
 
-    // ---- debug output ------------------------------------------------------
+    // ---- debug output (first page only to keep logs light) ---------------
     console.log(`📡  Drive query [${label}] → status ${res.status}`);
     if (!res.ok) {
       console.log(JSON.stringify(body, null, 2).slice(0, 400));
       throw new Error(`Drive API ${res.status}: ${body.error?.message ?? 'unknown error'}`);
     }
-    // Show only first page’s brief content
     if (!pageToken) console.log(JSON.stringify(body, null, 2).slice(0, 400));
-    // -----------------------------------------------------------------------
+    // ---------------------------------------------------------------------
 
     files.push(...(body.files ?? []));
     pageToken = body.nextPageToken;
@@ -77,11 +71,12 @@ export default async function build() {
   const albums = await driveList(
     `'${ROOT_ID}' in parents and mimeType='${FOLDER_MIME}' and trashed=false`,
     'list albums',
-    'id,name,mimeType,createdTime',
-    'createdTime desc'
+    'id,name,mimeType,createdTime'
   );
 
-  if (!albums.length) throw new Error('No sub-folders found — check sharing settings or folder ID');
+  if (!albums.length) {
+    throw new Error('No sub-folders found — check sharing settings or folder ID');
+  }
 
   const gallery = {};
 
@@ -90,20 +85,19 @@ export default async function build() {
     const pics = await driveList(
       `'${alb.id}' in parents and mimeType contains 'image/' and trashed=false`,
       `list pics of ${alb.name}`,
-      'id,name,mimeType,createdTime',
-      'name asc'
+      'id,name,mimeType,createdTime'
     );
 
     if (!pics.length) continue; // skip empty albums
 
-    // Sort by name (or switch to createdTime if you prefer)
+    // Sort by name (alphabetical)
     pics.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
-    // 3) Map to public-safe URLs
+    // 3) Map to public-safe URLs (no 403s)
     gallery[alb.name] = pics.map(p => ({
       name: p.name || p.id,
-      thumb: driveThumbUrl(p.id),         // ✅ public thumbnail
-      url:   driveViewUrl(p.id),          // ✅ public, embeddable
+      thumb: driveThumbUrl(p.id),   // public thumbnail endpoint
+      url:   driveViewUrl(p.id),    // public embeddable view
     }));
   }
 
