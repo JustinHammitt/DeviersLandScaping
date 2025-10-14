@@ -18,12 +18,12 @@ if (!KEY) throw new Error('❌  GDRIVE_KEY env var is missing');
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
 
 // Public-safe URL builders
-const driveImageUrl = (id) => 
-	`https://drive.google.com/uc?export=download&id=${id}`;
-
-
 const driveFullUrl = (id, w = 2000) =>
   `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
+
+
+const driveThumbUrl = (id, size = 'w600-h600') =>
+  `https://drive.google.com/thumbnail?id=${id}&sz=${size}`;
 /*******************************************************/
 
 /**
