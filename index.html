@@ -12,56 +12,56 @@
 <body>
   <header>
     <nav>
-  <div class="logo">
-    <a href="#home">
-      <img src="assets/logo.png" alt="Deviers Logo" />
-    </a>
-  </div>
-  <ul>
-    <li><a href="#home">Home</a></li>
-    <li><a href="#portfolio">Portfolio</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="gallery.html">Gallery</a></li>`
-  </ul>
-</nav>
+      <div class="logo">
+        <a href="#home">
+          <img src="assets/logo.png" alt="Deviers Logo" />
+        </a>
+      </div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+    </nav>
   </header>
 
   <section id="hero">
-  <h1>Deviers's Landscaping & Hauling, Your One-Stop Solution.</h1>
-  <p>We offer a wide range of services to meet your needs including Lawn Care, Hauling, Gardening, pressure washing, mulch installation, and more.</p>
-</section>
+    <h1>Deviers's Landscaping & Hauling, Your One-Stop Solution.</h1>
+    <p>We offer a wide range of services to meet your needs including Lawn Care, Hauling, Gardening, pressure washing, mulch installation, and more.</p>
+  </section>
 
-<section id="quote" class="section-wrapper">
-  <h2>Request a Free Quote</h2>
-  <div class="quote-box">
-    <form action="#" method="post" id="quote-form">
-      <div class="input-pair">
-        <input type="text" name="firstName" placeholder="First Name" required />
-        <input type="text" name="lastName" placeholder="Last Name" required />
-      </div>
-      <div class="input-pair">
-        <input type="tel" name="phone" placeholder="Phone Number" required />
-        <input type="email" name="email" placeholder="Email Address" required />
-      </div>
-      <input type="text" name="address" placeholder="Project Address" required />
-      <textarea name="description" placeholder="Describe the work you need completed..." rows="5" required></textarea>
-      <div class="full-width">
-        <select name="reason" required>
-          <option value="" disabled selected>Select Inquiry Reason *</option>
-          <option value="Gardening">Gardening</option>
-          <option value="Landscaping">Landscaping</option>
-          <option value="Mulching">Mulching</option>
-          <option value="Leveling">Leveling</option>
-          <option value="Pressure Washing">Pressure Washing</option>
-        </select>
-      </div>
-      <div class="full-width">
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  </div>
-</section>
+  <section id="quote" class="section-wrapper">
+    <h2>Request a Free Quote</h2>
+    <div class="quote-box">
+      <form action="#" method="post" id="quote-form">
+        <div class="input-pair">
+          <input type="text" name="firstName" placeholder="First Name" required />
+          <input type="text" name="lastName" placeholder="Last Name" required />
+        </div>
+        <div class="input-pair">
+          <input type="tel" name="phone" placeholder="Phone Number" required />
+          <input type="email" name="email" placeholder="Email Address" required />
+        </div>
+        <input type="text" name="address" placeholder="Project Address" required />
+        <textarea name="description" placeholder="Describe the work you need completed..." rows="5" required></textarea>
+        <div class="full-width">
+          <select name="reason" required>
+            <option value="" disabled selected>Select Inquiry Reason *</option>
+            <option value="Gardening">Gardening</option>
+            <option value="Landscaping">Landscaping</option>
+            <option value="Mulching">Mulching</option>
+            <option value="Leveling">Leveling</option>
+            <option value="Pressure Washing">Pressure Washing</option>
+          </select>
+        </div>
+        <div class="full-width">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </section>
 
   <section id="portfolio" class="section-wrapper">
     <h2>Portfolio</h2>
@@ -104,49 +104,7 @@
   <!-- Lightbox2 JS -->
   <script src="plugins/lightbox2/js/lightbox-plus-jquery.js"></script>
 
-  <!-- Dynamic Gallery Script -->
-  <script>
-    const jobs = [
-      { id: 'job1', title: 'Mulch Install - April 2024', count: 7 },
-      { id: 'job2', title: 'Lawn Cleanup - March 2024', count: 7 }
-      // Add new jobs here
-    ];
-
-    const galleryContainer = document.getElementById('portfolio-gallery');
-
-    jobs.forEach(job => {
-      const albumDiv = document.createElement('div');
-      albumDiv.className = 'album';
-
-      const basePath = `assets/portfolio/${job.id}/`;
-
-      for (let i = 1; i <= job.count; i++) {
-        const imgPath = `${basePath}${i}.jpg`;
-        const anchor = document.createElement('a');
-        anchor.href = imgPath;
-        anchor.setAttribute('data-lightbox', job.id);
-        anchor.setAttribute('data-title', job.title);
-
-        if (i === 1) {
-          const img = document.createElement('img');
-          img.src = imgPath;
-          img.alt = job.title;
-          anchor.appendChild(img);
-          albumDiv.appendChild(anchor);
-
-          const caption = document.createElement('p');
-          caption.textContent = job.title;
-          albumDiv.appendChild(caption);
-        } else {
-          anchor.style.display = 'none';
-          albumDiv.appendChild(anchor);
-        }
-      }
-
-      galleryContainer.appendChild(albumDiv);
-    });
-  </script>
-  
+  <!-- Quote form submit (keep yours) -->
   <script>
     const quoteForm = document.getElementById("quote-form");
 
@@ -187,62 +145,89 @@
       }
     });
   </script>
-  
+
+  <!-- NEW: homepage gallery built from galleryData.json -->
   <script>
-    // Example folders (based on FileList.txt)
-    const galleryFolders = [
-      "Cleanupjobs_ZlTND9XE_g",
-      "Mobileuploads_eJSRV9jUcQ",
-      "Yards_OelBzM-vVg",
-      "SkidSteerWork2025_5ro6yUDB_A"
-    ];
+    (async function () {
+      const galleryContainer = document.getElementById("portfolio-gallery");
+      if (!galleryContainer) return;
 
-    // Simulated image counts (adjust as needed)
-    const folderImageCounts = {
-      "Cleanupjobs_ZlTND9XE_g": 10,
-      "Mobileuploads_eJSRV9jUcQ": 15,
-      "Yards_OelBzM-vVg": 12,
-      "SkidSteerWork2025_5ro6yUDB_A": 8
-    };
+      let json;
+      try {
+        // adjust path if yours lives in /data/galleryData.json
+        const res = await fetch("./galleryData.json");
+        json = await res.json();
+      } catch (err) {
+        console.warn("[Deviers] Could not load galleryData.json, using fallback.", err);
+        json = null;
+      }
 
-    // Choose N random entries
-    const numToShow = 6;
-    const chosenImages = [];
+      function renderFromImages(images) {
+        const maxItems = 6;
+        galleryContainer.innerHTML = "";
 
-    while (chosenImages.length < numToShow) {
-      const folder = galleryFolders[Math.floor(Math.random() * galleryFolders.length)];
-      const count = folderImageCounts[folder];
-      const imgIndex = Math.floor(Math.random() * count) + 1;
-      const filename = `${imgIndex}.jpg`;
-      chosenImages.push({ folder, filename });
-    }
+        // randomize
+        const shuffled = images.sort(() => Math.random() - 0.5);
+        const picked = shuffled.slice(0, maxItems);
 
-    // Target the existing portfolio section
-    const galleryContainer = document.getElementById("portfolio-gallery");
-    galleryContainer.innerHTML = ""; // Clear any placeholders
+        picked.forEach((imgObj, idx) => {
+          const title =
+            imgObj.title ||
+            imgObj.name ||
+            imgObj.caption ||
+            imgObj.folder ||
+            `Job #${idx + 1}`;
 
-    chosenImages.forEach(({ folder, filename }) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "album";
+          const src =
+            imgObj.url ||
+            imgObj.thumb ||
+            imgObj.thumbnail ||
+            "assets/placeholder.jpg";
 
-      const anchor = document.createElement("a");
-      anchor.href = `assets/gallery/${folder}/${filename}`;
-      anchor.setAttribute("data-lightbox", "featured");
-      anchor.setAttribute("data-title", folder.replace(/_/g, " "));
+          const card = document.createElement("div");
+          card.className = "album";
 
-      const img = document.createElement("img");
-      img.src = `assets/gallery/${folder}/${filename}`;
-      img.alt = folder;
+          const a = document.createElement("a");
+          a.href = src;
+          a.setAttribute("data-lightbox", "homepage");
+          a.setAttribute("data-title", title);
 
-      anchor.appendChild(img);
-      wrapper.appendChild(anchor);
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = title;
 
-      const caption = document.createElement("p");
-      caption.textContent = folder.replace(/_/g, " ");
-      wrapper.appendChild(caption);
+          a.appendChild(img);
+          card.appendChild(a);
 
-      galleryContainer.appendChild(wrapper);
-    });
+          const cap = document.createElement("p");
+          cap.textContent = title;
+          card.appendChild(cap);
+
+          galleryContainer.appendChild(card);
+        });
+      }
+
+      if (json) {
+        // galleryData.json is likely shaped like:
+        // { "2025-01-15": [ {...}, {...} ], "2025-01-20": [ ... ] }
+        const buckets = Object.values(json);
+        const allImages = buckets.flat();
+        if (allImages.length) {
+          renderFromImages(allImages);
+          return;
+        }
+      }
+
+      // fallback if JSON empty/missing
+      renderFromImages([
+        { name: "Mulch install – sample", url: "assets/gallery/mulch/1.jpg" },
+        { name: "Cleanup – sample", url: "assets/gallery/cleanup/1.jpg" },
+        { name: "Yard leveling – sample", url: "assets/gallery/yards/1.jpg" },
+        { name: "Skid steer – sample", url: "assets/gallery/skidsteer/1.jpg" },
+        { name: "Hauling – sample", url: "assets/gallery/hauling/1.jpg" },
+        { name: "Pressure washing – sample", url: "assets/gallery/pressure/1.jpg" }
+      ]);
+    })();
   </script>
 
 </body>
