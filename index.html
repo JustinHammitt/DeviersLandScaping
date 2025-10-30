@@ -146,7 +146,45 @@
     });
   </script>
 
-  <!-- NEW: homepage gallery built from galleryData.json -->
+  <!-- Lightbox2 JS -->
+  <script src="plugins/lightbox2/js/lightbox-plus-jquery.js"></script>
+
+  <!-- Quote form submit (unchanged) -->
+  <script>
+    const quoteForm = document.getElementById("quote-form");
+    const SCRIPT_URL = "https://script.google.com/macros/s/PASTE-YOURS-HERE/exec";
+
+    quoteForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(quoteForm);
+      const btn = quoteForm.querySelector("button[type='submit']");
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        if (data.status === "success") {
+          alert("Thanks! Your quote request was sent.");
+          quoteForm.reset();
+        } else {
+          alert("Something went wrong submitting the form. Please try again.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Network error. Please try again.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    });
+  </script>
+
+  <!-- Homepage portfolio from galleryData.json -->
   <script>
     (async function () {
       const galleryContainer = document.getElementById("portfolio-gallery");
@@ -154,7 +192,7 @@
 
       let json;
       try {
-        // adjust path if yours lives in /data/galleryData.json
+        // change to "./data/galleryData.json" if that's your path
         const res = await fetch("./galleryData.json");
         json = await res.json();
       } catch (err) {
@@ -166,7 +204,6 @@
         const maxItems = 6;
         galleryContainer.innerHTML = "";
 
-        // randomize
         const shuffled = images.sort(() => Math.random() - 0.5);
         const picked = shuffled.slice(0, maxItems);
 
@@ -178,22 +215,28 @@
             imgObj.folder ||
             `Job #${idx + 1}`;
 
-          const src =
+          // ✅ use thumb for the visible <img>
+          const thumbSrc =
+            imgObj.thumb ||
+            imgObj.url || // fallback to big image if no thumb
+            "assets/placeholder.jpg";
+
+          // ✅ use full-size for lightbox
+          const fullSrc =
             imgObj.url ||
             imgObj.thumb ||
-            imgObj.thumbnail ||
             "assets/placeholder.jpg";
 
           const card = document.createElement("div");
           card.className = "album";
 
           const a = document.createElement("a");
-          a.href = src;
+          a.href = fullSrc;
           a.setAttribute("data-lightbox", "homepage");
           a.setAttribute("data-title", title);
 
           const img = document.createElement("img");
-          img.src = src;
+          img.src = thumbSrc;
           img.alt = title;
 
           a.appendChild(img);
@@ -208,8 +251,6 @@
       }
 
       if (json) {
-        // galleryData.json is likely shaped like:
-        // { "2025-01-15": [ {...}, {...} ], "2025-01-20": [ ... ] }
         const buckets = Object.values(json);
         const allImages = buckets.flat();
         if (allImages.length) {
@@ -218,14 +259,14 @@
         }
       }
 
-      // fallback if JSON empty/missing
+      // fallback if JSON is missing/empty
       renderFromImages([
-        { name: "Mulch install – sample", url: "assets/gallery/mulch/1.jpg" },
-        { name: "Cleanup – sample", url: "assets/gallery/cleanup/1.jpg" },
-        { name: "Yard leveling – sample", url: "assets/gallery/yards/1.jpg" },
-        { name: "Skid steer – sample", url: "assets/gallery/skidsteer/1.jpg" },
-        { name: "Hauling – sample", url: "assets/gallery/hauling/1.jpg" },
-        { name: "Pressure washing – sample", url: "assets/gallery/pressure/1.jpg" }
+        { name: "Cleanup – sample", thumb: "assets/gallery/cleanup/1.jpg" },
+        { name: "Skid steer – sample", thumb: "assets/gallery/skidsteer/1.jpg" },
+        { name: "Hauling – sample", thumb: "assets/gallery/hauling/1.jpg" },
+        { name: "Mulch install – sample", thumb: "assets/gallery/mulch/1.jpg" },
+        { name: "Pressure washing – sample", thumb: "assets/gallery/pressure/1.jpg" },
+        { name: "Yard leveling – sample", thumb: "assets/gallery/yards/1.jpg" }
       ]);
     })();
   </script>
