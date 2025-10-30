@@ -146,5 +146,104 @@
       galleryContainer.appendChild(albumDiv);
     });
   </script>
+  
+  <script>
+    const quoteForm = document.getElementById("quote-form");
+
+    // TODO: replace with your deployed Google Apps Script URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/PASTE-YOURS-HERE/exec";
+
+    quoteForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(quoteForm);
+
+      // optional: show a "sending" state
+      const btn = quoteForm.querySelector("button[type='submit']");
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+          alert("Thanks! Your quote request was sent.");
+          quoteForm.reset();
+        } else {
+          alert("Something went wrong submitting the form. Please try again.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Network error. Please try again.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    });
+  </script>
+  
+  <script>
+    // Example folders (based on FileList.txt)
+    const galleryFolders = [
+      "Cleanupjobs_ZlTND9XE_g",
+      "Mobileuploads_eJSRV9jUcQ",
+      "Yards_OelBzM-vVg",
+      "SkidSteerWork2025_5ro6yUDB_A"
+    ];
+
+    // Simulated image counts (adjust as needed)
+    const folderImageCounts = {
+      "Cleanupjobs_ZlTND9XE_g": 10,
+      "Mobileuploads_eJSRV9jUcQ": 15,
+      "Yards_OelBzM-vVg": 12,
+      "SkidSteerWork2025_5ro6yUDB_A": 8
+    };
+
+    // Choose N random entries
+    const numToShow = 6;
+    const chosenImages = [];
+
+    while (chosenImages.length < numToShow) {
+      const folder = galleryFolders[Math.floor(Math.random() * galleryFolders.length)];
+      const count = folderImageCounts[folder];
+      const imgIndex = Math.floor(Math.random() * count) + 1;
+      const filename = `${imgIndex}.jpg`;
+      chosenImages.push({ folder, filename });
+    }
+
+    // Target the existing portfolio section
+    const galleryContainer = document.getElementById("portfolio-gallery");
+    galleryContainer.innerHTML = ""; // Clear any placeholders
+
+    chosenImages.forEach(({ folder, filename }) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "album";
+
+      const anchor = document.createElement("a");
+      anchor.href = `assets/gallery/${folder}/${filename}`;
+      anchor.setAttribute("data-lightbox", "featured");
+      anchor.setAttribute("data-title", folder.replace(/_/g, " "));
+
+      const img = document.createElement("img");
+      img.src = `assets/gallery/${folder}/${filename}`;
+      img.alt = folder;
+
+      anchor.appendChild(img);
+      wrapper.appendChild(anchor);
+
+      const caption = document.createElement("p");
+      caption.textContent = folder.replace(/_/g, " ");
+      wrapper.appendChild(caption);
+
+      galleryContainer.appendChild(wrapper);
+    });
+  </script>
+
 </body>
 </html>
