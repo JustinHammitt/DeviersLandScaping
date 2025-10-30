@@ -101,9 +101,6 @@
     <p>&copy; 2025 Deviers's Landscaping & Hauling. All rights reserved.</p>
   </footer>
 
-  <!-- Lightbox2 JS -->
-  <script src="plugins/lightbox2/js/lightbox-plus-jquery.js"></script>
-
   <!-- Quote form submit (keep yours) -->
   <script>
     const quoteForm = document.getElementById("quote-form");
@@ -146,129 +143,59 @@
     });
   </script>
 
+
   <!-- Lightbox2 JS -->
   <script src="plugins/lightbox2/js/lightbox-plus-jquery.js"></script>
 
-  <!-- Quote form submit (unchanged) -->
+  <!-- Homepage gallery (uses same logic as gallery.js) -->
   <script>
-    const quoteForm = document.getElementById("quote-form");
-    const SCRIPT_URL = "https://script.google.com/macros/s/PASTE-YOURS-HERE/exec";
+  document.addEventListener("DOMContentLoaded", () => {
+    const galleryContainer = document.getElementById("portfolio-gallery");
+    if (!galleryContainer) return;
 
-    quoteForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData(quoteForm);
-      const btn = quoteForm.querySelector("button[type='submit']");
-      const originalText = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = "Sending...";
+    fetch("data/galleryData.json")
+      .then(res => res.json())
+      .then(gallery => {
+        // gallery = { "2025-03-27": [ {thumb,url,name}, ... ], ... }
+        const albumEntries = Object.entries(gallery);
 
-      try {
-        const res = await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: formData,
+        // randomize and limit to 6 albums for the homepage
+        const selectedAlbums = albumEntries
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 6);
+
+        selectedAlbums.forEach(([albumName, pics]) => {
+          const album = document.createElement("div");
+          album.className = "album";
+
+          pics.forEach((pic, i) => {
+            const a = document.createElement("a");
+            a.href = pic.url;
+            a.setAttribute("data-lightbox", albumName);
+            a.setAttribute("data-title", `${albumName}: ${pic.name}`);
+
+            if (i === 0) {
+              // first photo = visible thumbnail
+              const img = document.createElement("img");
+              img.src = pic.thumb;
+              img.alt = pic.name;
+              a.appendChild(img);
+
+              const cap = document.createElement("p");
+              cap.textContent = albumName;
+              album.append(a, cap);
+            } else {
+              // hide others but keep them for lightbox scrolling
+              a.style.display = "none";
+              album.appendChild(a);
+            }
+          });
+
+          galleryContainer.appendChild(album);
         });
-        const data = await res.json();
-        if (data.status === "success") {
-          alert("Thanks! Your quote request was sent.");
-          quoteForm.reset();
-        } else {
-          alert("Something went wrong submitting the form. Please try again.");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Network error. Please try again.");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = originalText;
-      }
-    });
-  </script>
-
-  <!-- Homepage portfolio from galleryData.json -->
-  <script>
-    (async function () {
-      const galleryContainer = document.getElementById("portfolio-gallery");
-      if (!galleryContainer) return;
-
-      let json;
-      try {
-        // change to "./data/galleryData.json" if that's your path
-        const res = await fetch("./galleryData.json");
-        json = await res.json();
-      } catch (err) {
-        console.warn("[Deviers] Could not load galleryData.json, using fallback.", err);
-        json = null;
-      }
-
-      function renderFromImages(images) {
-        const maxItems = 6;
-        galleryContainer.innerHTML = "";
-
-        const shuffled = images.sort(() => Math.random() - 0.5);
-        const picked = shuffled.slice(0, maxItems);
-
-        picked.forEach((imgObj, idx) => {
-          const title =
-            imgObj.title ||
-            imgObj.name ||
-            imgObj.caption ||
-            imgObj.folder ||
-            `Job #${idx + 1}`;
-
-          // ✅ use thumb for the visible <img>
-          const thumbSrc =
-            imgObj.thumb ||
-            imgObj.url || // fallback to big image if no thumb
-            "assets/placeholder.jpg";
-
-          // ✅ use full-size for lightbox
-          const fullSrc =
-            imgObj.url ||
-            imgObj.thumb ||
-            "assets/placeholder.jpg";
-
-          const card = document.createElement("div");
-          card.className = "album";
-
-          const a = document.createElement("a");
-          a.href = fullSrc;
-          a.setAttribute("data-lightbox", "homepage");
-          a.setAttribute("data-title", title);
-
-          const img = document.createElement("img");
-          img.src = thumbSrc;
-          img.alt = title;
-
-          a.appendChild(img);
-          card.appendChild(a);
-
-          const cap = document.createElement("p");
-          cap.textContent = title;
-          card.appendChild(cap);
-
-          galleryContainer.appendChild(card);
-        });
-      }
-
-      if (json) {
-        const buckets = Object.values(json);
-        const allImages = buckets.flat();
-        if (allImages.length) {
-          renderFromImages(allImages);
-          return;
-        }
-      }
-
-      // fallback if JSON is missing/empty
-      renderFromImages([
-        { name: "Cleanup – sample", thumb: "assets/gallery/cleanup/1.jpg" },
-        { name: "Skid steer – sample", thumb: "assets/gallery/skidsteer/1.jpg" },
-        { name: "Hauling – sample", thumb: "assets/gallery/hauling/1.jpg" },
-        { name: "Mulch install – sample", thumb: "assets/gallery/mulch/1.jpg" },
-        { name: "Pressure washing – sample", thumb: "assets/gallery/pressure/1.jpg" },
-        { name: "Yard leveling – sample", thumb: "assets/gallery/yards/1.jpg" }
-      ]);
-    })();
+      })
+      .catch(err => console.error("Homepage gallery load failed:", err));
+  });
   </script>
 
 </body>
