@@ -35,31 +35,60 @@
   <section id="quote" class="section-wrapper">
     <h2>Request a Free Quote</h2>
     <div class="quote-box">
-      <form action="#" method="post" id="quote-form">
-        <div class="input-pair">
-          <input type="text" name="firstName" placeholder="First Name" required />
-          <input type="text" name="lastName" placeholder="Last Name" required />
-        </div>
-        <div class="input-pair">
-          <input type="tel" name="phone" placeholder="Phone Number" required />
-          <input type="email" name="email" placeholder="Email Address" required />
-        </div>
-        <input type="text" name="address" placeholder="Project Address" required />
-        <textarea name="description" placeholder="Describe the work you need completed..." rows="5" required></textarea>
-        <div class="full-width">
-          <select name="reason" required>
-            <option value="" disabled selected>Select Inquiry Reason *</option>
-            <option value="Gardening">Gardening</option>
-            <option value="Landscaping">Landscaping</option>
-            <option value="Mulching">Mulching</option>
-            <option value="Leveling">Leveling</option>
-            <option value="Pressure Washing">Pressure Washing</option>
-          </select>
-        </div>
-        <div class="full-width">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      <form id="quoteForm" action="https://api.web3forms.com/submit" method="POST">
+  <!-- Web3Forms key -->
+  <input type="hidden" name="access_key" value="8fa412e7-fbc9-4623-8c4a-f06a5a3c12e9" />
+
+  <!-- Nice-to-have metadata -->
+  <input type="hidden" name="subject" value="New Quote Request - Devier Landscaping & Hauling" />
+  <input type="hidden" name="from_name" value="DeviersLandScaping Website" />
+
+  <!-- Honeypot (spam trap) -->
+  <input type="checkbox" name="botcheck" style="display:none;" />
+
+  <div class="form-row">
+    <label for="fullName">Full Name *</label>
+    <input id="fullName" name="fullName" type="text" required minlength="2" />
+  </div>
+
+  <div class="form-row">
+    <label for="email">Email *</label>
+    <input id="email" name="email" type="email" required />
+  </div>
+
+  <div class="form-row">
+    <label for="phone">Phone</label>
+    <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="(###) ###-####" />
+  </div>
+
+  <div class="form-row">
+    <label for="service">Inquiry Reason *</label>
+    <select id="service" name="service" required>
+      <option value="" selected disabled>Select...</option>
+      <option>Gardening</option>
+      <option>Landscaping</option>
+      <option>Mulching</option>
+      <option>Leveling</option>
+      <option>Pressure Washing</option>
+      <option>Hauling / Junk Removal</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <div class="form-row">
+    <label for="address">Job Address / Area</label>
+    <input id="address" name="address" type="text" placeholder="City / neighborhood is fine" />
+  </div>
+
+  <div class="form-row">
+    <label for="details">Job Details *</label>
+    <textarea id="details" name="details" rows="5" required
+      placeholder="What do you need done? Approx size, timeline, and any helpful details."></textarea>
+  </div>
+
+  <button id="quoteSubmit" type="submit">Submit</button>
+  <p id="quoteStatus" class="form-status" aria-live="polite"></p>
+</form>
     </div>
   </section>
 
@@ -197,6 +226,8 @@
       .catch(err => console.error("Homepage gallery load failed:", err));
   });
   </script>
-
+  
+  <!---Quote Form --->
+  <script src="public/js/quote-form.js"></script>
 </body>
 </html>

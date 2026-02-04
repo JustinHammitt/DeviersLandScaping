@@ -161,6 +161,13 @@ main.gallery .album p {
   border-bottom-right-radius: 0.5rem;
 }
 
+.form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.form-row input, .form-row select, .form-row textarea {
+  padding: 10px; border-radius: 10px; border: 1px solid #ccc;
+}
+.form-status { margin-top: 10px; font-weight: 600; }
+
+
 /* ===================== Responsive Breakpoints ===================== */
 @media (min-width: 768px) {
   #hero h1 { font-size: 3rem; }
